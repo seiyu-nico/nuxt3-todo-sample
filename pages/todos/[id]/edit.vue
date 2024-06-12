@@ -19,6 +19,8 @@ const update = async () => {
     throw new Error("Todo not found");
   }
   await TodoStore.updateTodo(localTodo.value);
+  // 詳細ページに遷移
+  await useRouter().push(`/todos/${id}`);
 };
 
 onMounted(async () => {

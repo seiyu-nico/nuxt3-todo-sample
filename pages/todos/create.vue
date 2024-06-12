@@ -16,6 +16,7 @@ const create = async () => {
     throw new Error("Todo not found");
   }
   await TodoStore.createTodo(localTodo.value);
+  await useRouter().push(`/todos`);
 };
 
 </script>
