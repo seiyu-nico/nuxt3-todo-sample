@@ -32,7 +32,7 @@ const updateLocalTodo = (todo: TNewTodo) => {
   <div>
     <h1>Todo編集</h1>
     <div v-if="loading">Loading...</div>
-    <div v-else-if="errors">{{ errors }}</div>
+    <div v-else-if="errors.length">{{ errors }}</div>
     <div v-else>
       <div v-if="localTodo !== null">
         <organisms-todo-form :todo="localTodo" :status-options="TodoStatusOptions" @update:todo="updateLocalTodo" />

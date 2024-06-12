@@ -44,7 +44,7 @@ const updateLocalTodo = (todo: Omit<TTodo, 'id'>) => {
   <div>
     <h1>Todo編集</h1>
     <div v-if="loading">Loading...</div>
-    <div v-else-if="errors">{{ errors }}</div>
+    <div v-else-if="errors.length">{{ errors }}</div>
     <div v-else>
       <div v-if="localTodo !== null">
         <p>id: {{ id }}</p>
