@@ -1,15 +1,30 @@
-import { type Todo as TTodo, type TodoStatus } from "~/types/todo";
+import {
+  type Todo as TTodo,
+  type NewTodo as TNewTodo,
+  type TodoStatus,
+} from "~/types/todo";
+import { Entity } from "~/entities/entity";
 
-export class Todo implements TTodo {
-  id: number;
-  title: string;
-  status: TodoStatus;
+export class Todo extends Entity<TTodo> implements TTodo {
+  readonly id: number;
+  readonly title: string;
+  readonly status: TodoStatus;
 
   constructor({ id, title, status }: TTodo) {
+    super();
     this.id = id;
     this.title = title;
     this.status = status;
   }
+}
 
-  // 必要があればメソッド追加
+export class NewTodo extends Entity<TNewTodo> implements TNewTodo {
+  readonly title: string;
+  readonly status: TodoStatus;
+
+  constructor({ title, status }: TNewTodo) {
+    super();
+    this.title = title;
+    this.status = status;
+  }
 }

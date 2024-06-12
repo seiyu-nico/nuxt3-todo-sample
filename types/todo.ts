@@ -4,4 +4,6 @@ export type Todo = {
   id: number;
   title: string;
   status: TodoStatus;
-}
+};
+
+export type NewTodo = Omit<Todo, "id">;
