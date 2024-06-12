@@ -1,34 +1,23 @@
 <script setup lang="ts">
-import { Todo } from "~/entities/todo";
+import { NewTodo } from "~/entities/todo";
 import { TodoStatusOptions } from "~/types/todo";
-type RouteParams = {
-  id: number;
-};
-const route = useRoute();
-const params = route.params as RouteParams;
-const id = params.id;
 const TodoStore = useTodo();
 const todo = TodoStore.state;
 const loading = TodoStore.loading;
 const error = TodoStore.error;
 
-const localTodo = ref<Todo | null>(null);
+const localTodo = ref<NewTodo>(new NewTodo({
+  title: "",
+  status: "not_started"
+}));
 
-const update = async () => {
+const create = async () => {
   if (localTodo.value === null) {
     throw new Error("Todo not found");
   }
-  await TodoStore.updateTodo(localTodo.value);
+  await TodoStore.createTodo(localTodo.value);
 };
 
-onMounted(async () => {
-  await TodoStore.fetchTodo(id);
-  if (todo.value === null) {
-    throw new Error("Todo not found");
-  }
-  localTodo.value = new Todo(todo.value);
-  console.log(localTodo.value);
-});
 </script>
 <template>
   <div>
@@ -37,7 +26,6 @@ onMounted(async () => {
     <div v-else-if="error">{{ error }}</div>
     <div v-else>
       <div v-if="localTodo !== null">
-        <p>id: {{ id }}</p>
         <div>
           <label for="title">Title:</label>
           <input
@@ -60,8 +48,8 @@ onMounted(async () => {
           </select>
         </div>
         <div>
-          <button class="margin" @click="update">更新</button>
-          <nuxt-link :to="`/todos/${id}`">詳細に戻る</nuxt-link>
+          <button class="margin" @click="create">更新</button>
+          <nuxt-link :to="`/todos`">詳細に戻る</nuxt-link>
         </div>
       </div>
     </div>

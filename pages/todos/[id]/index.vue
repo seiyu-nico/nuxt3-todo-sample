@@ -6,12 +6,12 @@ type RouteParams = {
 const route = useRoute();
 const params = route.params as RouteParams;
 const id = params.id;
-const TodoStore = useTodo(id);
+const TodoStore = useTodo();
 const todo = TodoStore.state;
 const loading = TodoStore.loading;
 const error = TodoStore.error;
 onMounted(async () => {
-  await TodoStore.fetchTodo();
+  await TodoStore.fetchTodo(id);
 });
 </script>
 <template>
