@@ -1,4 +1,3 @@
-import { type Ref, ref, readonly } from 'vue'
 import { type Todo as TTodo } from '~/types/todo'
 import type { NewTodo } from '~/entities/todo'
 import { Todo } from '~/entities/todo'
