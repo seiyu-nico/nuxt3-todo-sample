@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Todo } from "~/entities/todo";
-import { TodoStatusOptions } from "~/types/todo";
+import { type Todo as TTodo, TodoStatusOptions } from "~/types/todo";
 type RouteParams = {
   id: number;
 };
@@ -31,6 +31,11 @@ onMounted(async () => {
   localTodo.value = new Todo(todo.value);
   console.log(localTodo.value);
 });
+
+const updateLocalTodo = (todo: Omit<TTodo, "id">) => {
+  localTodo.value = new Todo({...todo, id: id});
+};
+
 </script>
 <template>
   <div>
@@ -40,27 +45,7 @@ onMounted(async () => {
     <div v-else>
       <div v-if="localTodo !== null">
         <p>id: {{ id }}</p>
-        <div>
-          <label for="title">Title:</label>
-          <input
-            id="title"
-            :value="localTodo.title"
-            type="text"
-            @input="(event) => {
-              if (localTodo !== null) {
-                localTodo = localTodo.copyWith({ title: (event.target as HTMLInputElement).value });
-            }
-            }"
-          />
-        </div>
-        <div>
-          <label for="status">Status:</label>
-          <select id="status" v-model="localTodo.status">
-            <option v-for="status in TodoStatusOptions" :key="status" :value="status">
-              {{ status }}
-            </option>
-          </select>
-        </div>
+        <organisms-todo-form :todo="localTodo" :statusOptions="TodoStatusOptions" @update:todo="updateLocalTodo" />
         <div>
           <button class="margin" @click="update">更新</button>
           <nuxt-link :to="`/todos/${id}`">詳細に戻る</nuxt-link>

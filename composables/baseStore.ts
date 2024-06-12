@@ -5,6 +5,7 @@ interface Identifiable {
 }
 
 async function fetch<T>(url: string, opts?: any) {
+  console.log("opts", opts);
   return useFetch<T>(url, opts);
 }
 

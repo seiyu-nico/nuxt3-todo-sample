@@ -20,6 +20,7 @@ export default defineEventHandler(async (event) => {
   todos[todoIndex] = {
     ...todos[todoIndex],
     ...body,
+    id: todoId,
   };
 
   return todos[todoIndex];

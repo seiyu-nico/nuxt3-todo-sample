@@ -17,6 +17,7 @@ onMounted(async () => {
       <ul>
         <li v-for="todo in todos" :key="todo.id">
           <nuxt-link :to="`/todos/${todo.id}`">{{ todo.title }}</nuxt-link>
+          {{ todo.toJson()}}
         </li>
       </ul>
     </div>
