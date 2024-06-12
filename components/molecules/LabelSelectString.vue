@@ -1,19 +1,19 @@
 <script setup lang="ts">
 
 const props = defineProps<{
-  id: string;
-  label: string;
-  value: string;
-  options: string[];
-}>();
+  id: string
+  label: string
+  value: string
+  options: string[]
+}>()
 
 const emit = defineEmits<{
-  (e: 'update:value', value: string): void;
-}>();
+  (e: 'update:value', value: string): void
+}>()
 
 const update = (value: string) => {
-  emit("update:value", value);
-};
+  emit('update:value', value)
+}
 </script>
 <template>
   <div>
@@ -21,4 +21,3 @@ const update = (value: string) => {
     <AtomsBaseSelectString :id="id" :label="label" :value="value" :options="options" @update:value="update" />
   </div>
 </template>
-

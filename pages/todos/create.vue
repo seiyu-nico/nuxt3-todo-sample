@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { NewTodo } from "~/entities/todo";
-import { type NewTodo as TNewTodo, TodoStatusOptions } from "~/types/todo";
-const TodoStore = useTodos();
-const loading = TodoStore.loading;
-const error = TodoStore.error;
+import { NewTodo } from '~/entities/todo'
+import { type NewTodo as TNewTodo, TodoStatusOptions } from '~/types/todo'
+const TodoStore = useTodos()
+const loading = TodoStore.loading
+const error = TodoStore.error
 
 const localTodo = ref<NewTodo>(new NewTodo({
-  title: "",
+  title: '',
   status: TodoStatusOptions[0],
-}));
+}))
 
 const create = async () => {
   if (localTodo.value === null) {
-    throw new Error("Todo not found");
+    throw new Error('Todo not found')
   }
-  await TodoStore.create(localTodo.value);
-  await useRouter().push(`/todos`);
-};
+  await TodoStore.create(localTodo.value)
+  await useRouter().push(`/todos`)
+}
 
 const updateLocalTodo = (todo: TNewTodo) => {
-  localTodo.value = new NewTodo(todo);
-};
+  localTodo.value = new NewTodo(todo)
+}
 
 </script>
 <template>
@@ -30,7 +30,7 @@ const updateLocalTodo = (todo: TNewTodo) => {
     <div v-else-if="error">{{ error }}</div>
     <div v-else>
       <div v-if="localTodo !== null">
-        <organisms-todo-form :todo="localTodo" :statusOptions="TodoStatusOptions" @update:todo="updateLocalTodo" />
+        <organisms-todo-form :todo="localTodo" :status-options="TodoStatusOptions" @update:todo="updateLocalTodo" />
         <div>
           <button class="margin" @click="create">更新</button>
           <nuxt-link :to="`/todos`">詳細に戻る</nuxt-link>
