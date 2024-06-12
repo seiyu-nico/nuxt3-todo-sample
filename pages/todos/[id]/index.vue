@@ -23,7 +23,7 @@ onMounted(async () => {
     <div v-else>
       <p>id: {{ id }}</p>
       <p>title: {{ todo?.title }}</p>
-      <p>status: {{ todo?.status }}</p>
+      <p>status: {{ $t(`todos.status.${todo?.status}`, ) }}</p>
       <nuxt-link :to="`/todos/${id}/edit`">編集</nuxt-link>
     </div>
   </div>
