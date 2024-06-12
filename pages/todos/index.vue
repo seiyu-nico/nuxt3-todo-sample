@@ -2,7 +2,7 @@
 const todosStore = useTodos()
 const todos = todosStore.states
 const loading = todosStore.loading
-const error = todosStore.error
+const errors = todosStore.errors
 onMounted(async () => {
   await todosStore.fetchItems()
 })
@@ -12,7 +12,7 @@ onMounted(async () => {
     <h1>Todo一覧</h1>
     <nuxt-link to="/todos/create">新規作成</nuxt-link>
     <div v-if="loading">Loading...</div>
-    <div v-else-if="error">{{ error }}</div>
+    <div v-else-if="errors">{{ errors }}</div>
     <div v-else>
       <ul>
         <li v-for="todo in todos" :key="todo.id">

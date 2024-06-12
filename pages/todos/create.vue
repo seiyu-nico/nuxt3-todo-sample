@@ -3,7 +3,7 @@ import { NewTodo } from '~/entities/todo'
 import { type NewTodo as TNewTodo, TodoStatusOptions } from '~/types/todo'
 const TodoStore = useTodos()
 const loading = TodoStore.loading
-const error = TodoStore.error
+const errors = TodoStore.errors
 
 const localTodo = ref<NewTodo>(new NewTodo({
   title: '',
@@ -14,8 +14,13 @@ const create = async () => {
   if (localTodo.value === null) {
     throw new Error('Todo not found')
   }
-  await TodoStore.create(localTodo.value)
-  await useRouter().push(`/todos`)
+  try {
+    await TodoStore.create(localTodo.value)
+    await useRouter().push(`/todos`)
+  }
+  catch (e) {
+    console.error(e)
+  }
 }
 
 const updateLocalTodo = (todo: TNewTodo) => {
@@ -27,7 +32,7 @@ const updateLocalTodo = (todo: TNewTodo) => {
   <div>
     <h1>Todo編集</h1>
     <div v-if="loading">Loading...</div>
-    <div v-else-if="error">{{ error }}</div>
+    <div v-else-if="errors">{{ errors }}</div>
     <div v-else>
       <div v-if="localTodo !== null">
         <organisms-todo-form :todo="localTodo" :status-options="TodoStatusOptions" @update:todo="updateLocalTodo" />

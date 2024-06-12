@@ -5,13 +5,12 @@ interface Identifiable {
 }
 
 async function fetch<T>(url: string, opts?: any) {
-  console.log('opts', opts)
   return useFetch<T>(url, opts)
 }
 
 export abstract class BaseStore<T extends Identifiable, U> {
   protected _loading: Ref<boolean> = ref(false)
-  protected _error: Ref<string | null> = ref(null)
+  protected _errors: Ref<string[]> = ref([])
   protected _state: Ref<T | null> = ref(null)
   protected _states: Ref<T[]> = ref([])
 
@@ -22,8 +21,8 @@ export abstract class BaseStore<T extends Identifiable, U> {
     return readonly(this._loading)
   }
 
-  get error() {
-    return readonly(this._error)
+  get errors() {
+    return readonly(this._errors)
   }
 
   get state() {
@@ -34,12 +33,21 @@ export abstract class BaseStore<T extends Identifiable, U> {
     return readonly(this._states)
   }
 
-  async fetchItems(): Promise<void> {
+  async fetchItems(queries: Map<string, string> = new Map()): Promise<void> {
     this._loading.value = true
-    this._error.value = null
+    this._errors.value = []
     try {
-      const { data, error: fetchError } = await fetch<T[]>(this.endpoint)
-      if (fetchError.value) {
+      const { data, error: fetchError } = await fetch<T[]>(this.endpoint, {
+        params: queries,
+      })
+
+      if (fetchError.value && fetchError.value.statusCode === 422) {
+        // MEMO: fetchError.valueのデータ構造がわからないので実際やってみてから修正
+        // throwするかもしれないし、ここで対応するかもしれないし、実際には作ってみて
+        // this._errors.value = fetchError.value.message;
+        return
+      }
+      else if (fetchError.value) {
         throw new Error(fetchError.value.message)
       }
 
@@ -51,7 +59,7 @@ export abstract class BaseStore<T extends Identifiable, U> {
       }
     }
     catch (err) {
-      this._error.value = (err as Error).message
+      console.log('err', err)
     }
     finally {
       this._loading.value = false
@@ -60,12 +68,18 @@ export abstract class BaseStore<T extends Identifiable, U> {
 
   async fetchItem(id: number): Promise<void> {
     this._loading.value = true
-    this._error.value = null
+    this._errors.value = []
     try {
       const { data, error: fetchError } = await fetch<T>(
         `${this.endpoint}/${id}`,
       )
-      if (fetchError.value) {
+      if (fetchError.value && fetchError.value.statusCode === 422) {
+        // MEMO: fetchError.valueのデータ構造がわからないので実際やってみてから修正
+        // throwするかもしれないし、ここで対応するかもしれないし、実際には作ってみて
+        // this._errors.value = fetchError.value.message;
+        return
+      }
+      else if (fetchError.value) {
         throw new Error(fetchError.value.message)
       }
 
@@ -78,7 +92,7 @@ export abstract class BaseStore<T extends Identifiable, U> {
       }
     }
     catch (err) {
-      this._error.value = (err as Error).message
+      console.log('err', err)
     }
     finally {
       this._loading.value = false
@@ -87,7 +101,7 @@ export abstract class BaseStore<T extends Identifiable, U> {
 
   async create(item: U): Promise<void> {
     this._loading.value = true
-    this._error.value = null
+    this._errors.value = []
     try {
       const { data, error: createError } = await fetch<T>(this.endpoint, {
         method: 'POST',
@@ -96,7 +110,13 @@ export abstract class BaseStore<T extends Identifiable, U> {
           'Content-Type': 'application/json',
         },
       })
-      if (createError.value) {
+      if (createError.value && createError.value.statusCode === 422) {
+        // MEMO: createError.valueのデータ構造がわからないので実際やってみてから修正
+        // throwするかもしれないし、ここで対応するかもしれないし、実際には作ってみて
+        // this._errors.value = fetchError.value.message;
+        return
+      }
+      else if (createError.value) {
         throw new Error(createError.value.message)
       }
       if (data.value === null) {
@@ -107,7 +127,7 @@ export abstract class BaseStore<T extends Identifiable, U> {
       }
     }
     catch (err) {
-      this._error.value = (err as Error).message
+      console.log('err', err)
     }
     finally {
       this._loading.value = false
@@ -116,7 +136,7 @@ export abstract class BaseStore<T extends Identifiable, U> {
 
   async update(item: T): Promise<void> {
     this._loading.value = true
-    this._error.value = null
+    this._errors.value = []
     try {
       const { data, error: updateError } = await fetch<T>(
         `${this.endpoint}/${item.id}`,
@@ -128,19 +148,26 @@ export abstract class BaseStore<T extends Identifiable, U> {
           },
         },
       )
-      if (updateError.value) {
+      if (updateError.value && updateError.value.statusCode === 422) {
+        // MEMO: updateError.valueのデータ構造がわからないので実際やってみてから修正
+        // throwするかもしれないし、ここで対応するかもしれないし、実際には作ってみて
+        // this._errors.value = fetchError.value.message;
+        return
+      }
+      else if (updateError.value) {
         throw new Error(updateError.value.message)
       }
+
       if (data.value === null) {
         this._state.value = null
-        throw createError({ statusCode: 404, message: 'Page Not Found' })
       }
       else {
         this._state.value = this.createInstance(data.value)
       }
     }
     catch (err) {
-      this._error.value = (err as Error).message
+      console.log('err', err)
+      throw err
     }
     finally {
       this._loading.value = false

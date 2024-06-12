@@ -9,7 +9,7 @@ const id = params.id
 const TodoStore = useTodos()
 const todo = TodoStore.state
 const loading = TodoStore.loading
-const error = TodoStore.error
+const errors = TodoStore.errors
 onMounted(async () => {
   await TodoStore.fetchItem(id)
 })
@@ -19,7 +19,7 @@ onMounted(async () => {
     <h1>Todo詳細</h1>
     <nuxt-link to="/todos">一覧に戻る</nuxt-link>
     <div v-if="loading">Loading...</div>
-    <div v-else-if="error">{{ error }}</div>
+    <div v-else-if="errors">{{ errors }}</div>
     <div v-else>
       <p>id: {{ id }}</p>
       <p>title: {{ todo?.title }}</p>

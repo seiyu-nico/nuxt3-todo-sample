@@ -10,7 +10,7 @@ const id = params.id
 const TodoStore = useTodos()
 const todo = TodoStore.state
 const loading = TodoStore.loading
-const error = TodoStore.error
+const errors = TodoStore.errors
 
 const localTodo = ref<Todo | null>(null)
 
@@ -18,9 +18,14 @@ const update = async () => {
   if (localTodo.value === null) {
     throw new Error('Todo not found')
   }
-  await TodoStore.update(localTodo.value)
-  // 詳細ページに遷移
-  await useRouter().push(`/todos/${id}`)
+  try {
+    await TodoStore.update(localTodo.value)
+    // 詳細ページに遷移
+    await useRouter().push(`/todos/${id}`)
+  }
+  catch (e) {
+    console.error(e)
+  }
 }
 
 onMounted(async () => {
@@ -29,23 +34,25 @@ onMounted(async () => {
     throw new Error('Todo not found')
   }
   localTodo.value = new Todo(todo.value)
-  console.log(localTodo.value)
 })
 
 const updateLocalTodo = (todo: Omit<TTodo, 'id'>) => {
   localTodo.value = new Todo({ ...todo, id: id })
 }
-
 </script>
 <template>
   <div>
     <h1>Todo編集</h1>
     <div v-if="loading">Loading...</div>
-    <div v-else-if="error">{{ error }}</div>
+    <div v-else-if="errors">{{ errors }}</div>
     <div v-else>
       <div v-if="localTodo !== null">
         <p>id: {{ id }}</p>
-        <organisms-todo-form :todo="localTodo" :status-options="TodoStatusOptions" @update:todo="updateLocalTodo" />
+        <organisms-todo-form
+          :todo="localTodo"
+          :status-options="TodoStatusOptions"
+          @update:todo="updateLocalTodo"
+        />
         <div>
           <button class="margin" @click="update">更新</button>
           <nuxt-link :to="`/todos/${id}`">詳細に戻る</nuxt-link>
