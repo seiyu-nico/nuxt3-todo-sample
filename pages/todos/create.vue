@@ -2,13 +2,12 @@
 import { NewTodo } from "~/entities/todo";
 import { TodoStatusOptions } from "~/types/todo";
 const TodoStore = useTodo();
-const todo = TodoStore.state;
 const loading = TodoStore.loading;
 const error = TodoStore.error;
 
 const localTodo = ref<NewTodo>(new NewTodo({
   title: "",
-  status: "not_started"
+  status: TodoStatusOptions[0],
 }));
 
 const create = async () => {

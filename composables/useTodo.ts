@@ -1,6 +1,5 @@
-import { type Ref, ref, readonly } from "vue";
+import { type Ref, ref } from "vue";
 import { Todo, NewTodo } from "~/entities/todo";
-import { type Todo as TTodo } from "~/types/todo";
 
 export const useTodo = () => new TodoStore();
 
