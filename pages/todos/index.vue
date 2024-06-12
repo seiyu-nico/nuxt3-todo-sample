@@ -4,7 +4,7 @@ const todos = todosStore.states;
 const loading = todosStore.loading;
 const error = todosStore.error;
 onMounted(async () => {
-  await todosStore.fetchTodos();
+  await todosStore.fetchItems();
 });
 </script>
 <template>

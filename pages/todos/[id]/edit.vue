@@ -18,13 +18,13 @@ const update = async () => {
   if (localTodo.value === null) {
     throw new Error("Todo not found");
   }
-  await TodoStore.updateTodo(localTodo.value);
+  await TodoStore.update(localTodo.value);
   // 詳細ページに遷移
   await useRouter().push(`/todos/${id}`);
 };
 
 onMounted(async () => {
-  await TodoStore.fetchTodo(id);
+  await TodoStore.fetchItem(id);
   if (todo.value === null) {
     throw new Error("Todo not found");
   }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NewTodo } from "~/entities/todo";
 import { TodoStatusOptions } from "~/types/todo";
-const TodoStore = useTodo();
+const TodoStore = useTodos();
 const loading = TodoStore.loading;
 const error = TodoStore.error;
 
@@ -14,7 +14,7 @@ const create = async () => {
   if (localTodo.value === null) {
     throw new Error("Todo not found");
   }
-  await TodoStore.createTodo(localTodo.value);
+  await TodoStore.create(localTodo.value);
   await useRouter().push(`/todos`);
 };
 

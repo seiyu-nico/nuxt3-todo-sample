@@ -11,7 +11,7 @@ const todo = TodoStore.state;
 const loading = TodoStore.loading;
 const error = TodoStore.error;
 onMounted(async () => {
-  await TodoStore.fetchTodo(id);
+  await TodoStore.fetchItem(id);
 });
 </script>
 <template>
