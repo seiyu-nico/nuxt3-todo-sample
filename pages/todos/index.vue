@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const todosStore = useTodos();
-const todos = todosStore.state;
+const todos = todosStore.states;
 const loading = todosStore.loading;
 const error = todosStore.error;
 onMounted(async () => {
