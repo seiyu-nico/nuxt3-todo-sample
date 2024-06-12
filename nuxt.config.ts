@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false,
   devtools: { enabled: true },
   typescript: {
     typeCheck: true,
@@ -7,5 +8,5 @@ export default defineNuxtConfig({
   eslint: {
     // options here
   },
-  modules: ["@nuxt/eslint", "nuxt-typed-router"],
-});
+  modules: ['@nuxt/eslint', 'nuxt-typed-router'],
+})
