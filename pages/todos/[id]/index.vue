@@ -11,6 +11,19 @@ await TodoStore.fetchItem(id);
 const todo = TodoStore.state;
 const loading = TodoStore.loading;
 const errors = TodoStore.errors;
+
+if (todo.value === null) {
+  throw new Error('Todo not found');
+}
+
+useSeoMeta({
+  title: `${todo.value.title} - サイト名`,
+  ogTitle: 'My Amazing Site',
+  description: 'This is my amazing site, let me tell you all about it.',
+  ogDescription: 'This is my amazing site, let me tell you all about it.',
+  ogImage: 'https://example.com/image.png',
+  twitterCard: 'summary_large_image',
+});
 </script>
 <template>
   <div>

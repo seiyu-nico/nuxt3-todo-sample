@@ -29,9 +29,21 @@ const update = async () => {
   }
 };
 
+if (todo.value === null) {
+  throw new Error('Todo not found');
+}
+
 const updateLocalTodo = (todo: Omit<TTodo, 'id'>) => {
   localTodo.value = new Todo({ ...todo, id: id });
 };
+useSeoMeta({
+  title: `${todo.value.title} - 編集 - サイト名`,
+  ogTitle: 'My Amazing Site',
+  description: 'This is my amazing site, let me tell you all about it.',
+  ogDescription: 'This is my amazing site, let me tell you all about it.',
+  ogImage: 'https://example.com/image.png',
+  twitterCard: 'summary_large_image',
+});
 </script>
 <template>
   <div>
