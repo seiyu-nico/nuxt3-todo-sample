@@ -1,5 +1,5 @@
 <script setup>
-const error = useError()
+const error = useError();
 </script>
 <template>
   <div v-if="error.statusCode === 404">

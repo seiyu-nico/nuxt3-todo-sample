@@ -1,5 +1,5 @@
-import { createI18n } from 'vue-i18n'
-import ja from '../lang/ja'
+import { createI18n } from 'vue-i18n';
+import ja from '../lang/ja';
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const i18n = createI18n({
@@ -9,7 +9,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
     messages: {
       ja,
     },
-  })
+  });
 
-  vueApp.use(i18n)
-})
+  vueApp.use(i18n);
+});

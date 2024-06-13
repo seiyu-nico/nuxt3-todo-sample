@@ -1,11 +1,11 @@
-import { todos } from './data'
-import { type Todo as TTodo } from '~/types/todo'
+import { todos } from './data';
+import { type Todo as TTodo } from '~/types/todo';
 
 export default defineEventHandler(async (event) => {
-  const id: string | undefined = event.context.params?.id
-  const todoId = parseInt(id as string)
-  const body = await readBody<Partial<TTodo>>(event)
-  const todoIndex = todos.findIndex(todo => todo.id === todoId)
+  const id: string | undefined = event.context.params?.id;
+  const todoId = parseInt(id as string);
+  const body = await readBody<Partial<TTodo>>(event);
+  const todoIndex = todos.findIndex(todo => todo.id === todoId);
 
   if (todoIndex === -1) {
     return {
@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
       body: {
         message: 'Todo not found',
       },
-    }
+    };
   }
 
   // 更新内容を反映
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     ...todos[todoIndex],
     ...body,
     id: todoId,
-  }
+  };
 
-  return todos[todoIndex]
-})
+  return todos[todoIndex];
+});

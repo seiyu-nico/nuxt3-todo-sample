@@ -1,5 +1,5 @@
 <script setup lang="ts">
-useRouter().push('/todos')
+useRouter().push('/todos');
 </script>
 <template>
   <div/>

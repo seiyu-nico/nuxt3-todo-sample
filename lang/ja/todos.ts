@@ -4,4 +4,4 @@ export default {
     in_progress: '進行中',
     completed: '完了',
   },
-}
+};

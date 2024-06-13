@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const todosStore = useTodos()
-const todos = todosStore.states
-const loading = todosStore.loading
-const errors = todosStore.errors
+const todosStore = useTodos();
+const todos = todosStore.states;
+const loading = todosStore.loading;
+const errors = todosStore.errors;
 onMounted(async () => {
-  await todosStore.fetchItems()
-})
+  await todosStore.fetchItems();
+});
 </script>
 <template>
   <div>

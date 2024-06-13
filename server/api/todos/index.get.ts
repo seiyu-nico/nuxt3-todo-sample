@@ -1,3 +1,3 @@
-import { todos } from './data'
+import { todos } from './data';
 
-export default defineEventHandler(async _ => todos)
+export default defineEventHandler(async _ => todos);

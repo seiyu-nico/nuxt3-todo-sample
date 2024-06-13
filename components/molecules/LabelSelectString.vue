@@ -1,19 +1,19 @@
 <script setup lang="ts">
 
 defineProps<{
-  id: string
-  label: string
-  value: string
-  options: string[]
-}>()
+  id: string;
+  label: string;
+  value: string;
+  options: string[];
+}>();
 
 const emit = defineEmits<{
-  (e: 'update:value', value: string): void
-}>()
+  (e: 'update:value', value: string): void;
+}>();
 
 const update = (value: string) => {
-  emit('update:value', value)
-}
+  emit('update:value', value);
+};
 </script>
 <template>
   <div>

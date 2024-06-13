@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import type { TodoStatus } from '~/types/todo'
+import type { TodoStatus } from '~/types/todo';
 
 const props = defineProps<{
-  todo: { title: string, status: TodoStatus }
-  statusOptions: TodoStatus[]
-}>()
+  todo: { title: string; status: TodoStatus };
+  statusOptions: TodoStatus[];
+}>();
 
 const emit = defineEmits<{
-  (e: 'update:todo', todo: { title: string, status: TodoStatus }): void
-}>()
+  (e: 'update:todo', todo: { title: string; status: TodoStatus }): void;
+}>();
 
 const updateTitle = (title: string) => {
-  emit('update:todo', { ...props.todo, title })
-}
+  emit('update:todo', { ...props.todo, title });
+};
 
 const updateStatus = (status: string) => {
-  emit('update:todo', { ...props.todo, status: status as TodoStatus })
-}
+  emit('update:todo', { ...props.todo, status: status as TodoStatus });
+};
 </script>
 <template>
   <div>

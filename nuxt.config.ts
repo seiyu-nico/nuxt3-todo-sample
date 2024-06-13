@@ -9,4 +9,4 @@ export default defineNuxtConfig({
     // options here
   },
   modules: ['@nuxt/eslint', 'nuxt-typed-router'],
-})
+});

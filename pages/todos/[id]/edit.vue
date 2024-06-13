@@ -1,44 +1,44 @@
 <script setup lang="ts">
-import { Todo } from '~/entities/todo'
-import { type Todo as TTodo, TodoStatusOptions } from '~/types/todo'
+import { Todo } from '~/entities/todo';
+import { type Todo as TTodo, TodoStatusOptions } from '~/types/todo';
 type RouteParams = {
-  id: number
-}
-const route = useRoute()
-const params = route.params as RouteParams
-const id = params.id
-const TodoStore = useTodos()
-const todo = TodoStore.state
-const loading = TodoStore.loading
-const errors = TodoStore.errors
+  id: number;
+};
+const route = useRoute();
+const params = route.params as RouteParams;
+const id = params.id;
+const TodoStore = useTodos();
+const todo = TodoStore.state;
+const loading = TodoStore.loading;
+const errors = TodoStore.errors;
 
-const localTodo = ref<Todo | null>(null)
+const localTodo = ref<Todo | null>(null);
 
 const update = async () => {
   if (localTodo.value === null) {
-    throw new Error('Todo not found')
+    throw new Error('Todo not found');
   }
   try {
-    await TodoStore.update(localTodo.value)
+    await TodoStore.update(localTodo.value);
     // 詳細ページに遷移
-    await useRouter().push(`/todos/${id}`)
+    await useRouter().push(`/todos/${id}`);
   }
   catch (e) {
-    console.error(e)
+    console.error(e);
   }
-}
+};
 
 onMounted(async () => {
-  await TodoStore.fetchItem(id)
+  await TodoStore.fetchItem(id);
   if (todo.value === null) {
-    throw new Error('Todo not found')
+    throw new Error('Todo not found');
   }
-  localTodo.value = new Todo(todo.value)
-})
+  localTodo.value = new Todo(todo.value);
+});
 
 const updateLocalTodo = (todo: Omit<TTodo, 'id'>) => {
-  localTodo.value = new Todo({ ...todo, id: id })
-}
+  localTodo.value = new Todo({ ...todo, id: id });
+};
 </script>
 <template>
   <div>

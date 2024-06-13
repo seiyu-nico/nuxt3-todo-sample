@@ -1,31 +1,31 @@
 <script setup lang="ts">
-import { NewTodo } from '~/entities/todo'
-import { type NewTodo as TNewTodo, TodoStatusOptions } from '~/types/todo'
-const TodoStore = useTodos()
-const loading = TodoStore.loading
-const errors = TodoStore.errors
+import { NewTodo } from '~/entities/todo';
+import { type NewTodo as TNewTodo, TodoStatusOptions } from '~/types/todo';
+const TodoStore = useTodos();
+const loading = TodoStore.loading;
+const errors = TodoStore.errors;
 
 const localTodo = ref<NewTodo>(new NewTodo({
   title: '',
   status: TodoStatusOptions[0],
-}))
+}));
 
 const create = async () => {
   if (localTodo.value === null) {
-    throw new Error('Todo not found')
+    throw new Error('Todo not found');
   }
   try {
-    await TodoStore.create(localTodo.value)
-    await useRouter().push(`/todos`)
+    await TodoStore.create(localTodo.value);
+    await useRouter().push(`/todos`);
   }
   catch (e) {
-    console.error(e)
+    console.error(e);
   }
-}
+};
 
 const updateLocalTodo = (todo: TNewTodo) => {
-  localTodo.value = new NewTodo(todo)
-}
+  localTodo.value = new NewTodo(todo);
+};
 
 </script>
 <template>
