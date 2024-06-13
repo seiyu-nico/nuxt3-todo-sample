@@ -7,12 +7,10 @@ const route = useRoute();
 const params = route.params as RouteParams;
 const id = params.id;
 const TodoStore = useTodos();
+await TodoStore.fetchItem(id);
 const todo = TodoStore.state;
 const loading = TodoStore.loading;
 const errors = TodoStore.errors;
-onMounted(async () => {
-  await TodoStore.fetchItem(id);
-});
 </script>
 <template>
   <div>

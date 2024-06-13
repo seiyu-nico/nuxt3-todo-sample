@@ -8,11 +8,12 @@ const route = useRoute();
 const params = route.params as RouteParams;
 const id = params.id;
 const TodoStore = useTodos();
+await TodoStore.fetchItem(id);
 const todo = TodoStore.state;
+const localTodo = ref<Todo | null>(null);
+todo.value && (localTodo.value = new Todo(todo.value));
 const loading = TodoStore.loading;
 const errors = TodoStore.errors;
-
-const localTodo = ref<Todo | null>(null);
 
 const update = async () => {
   if (localTodo.value === null) {
@@ -27,14 +28,6 @@ const update = async () => {
     console.error(e);
   }
 };
-
-onMounted(async () => {
-  await TodoStore.fetchItem(id);
-  if (todo.value === null) {
-    throw new Error('Todo not found');
-  }
-  localTodo.value = new Todo(todo.value);
-});
 
 const updateLocalTodo = (todo: Omit<TTodo, 'id'>) => {
   localTodo.value = new Todo({ ...todo, id: id });
